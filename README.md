@@ -1,126 +1,206 @@
-# SemiContact Pro
-### Semiconductor Contact Resistance Analysis Workstation  
-*CTLM · LTLM · TLM — Fully Offline Desktop Application*
+# 🚀 SemiContact Pro
+
+### Advanced Semiconductor Contact Resistance Analysis Workstation
+
+**CTLM • LTLM • TLM • Multi-Dataset Analysis • Publication-Ready Reports**
+
+SemiContact Pro is a fully offline desktop application designed for semiconductor contact resistance characterization and analysis. It provides an integrated environment for CTLM and LTLM workflows, combining data processing, visualization, parameter extraction, and professional report generation within a single workstation.
 
 ---
 
-## Quick Start
+## ✨ Key Features
+
+* 📊 CTLM (Circular Transmission Line Method) Analysis
+* 📈 LTLM (Linear Transmission Line Method) Analysis
+* 📁 Multi-Dataset Support
+* 🎨 Interactive Graph Customization
+* 🌙 Modern Dark-Themed Scientific Workspace
+* 📑 Automated PDF Report Generation
+* 🖼️ High-Resolution PNG Export
+* 📉 Residual Analysis & Deviation Visualization
+* ⚡ Real-Time Parameter Extraction
+* 💻 Fully Offline Desktop Application
+* 📦 Windows Executable Build Support
+
+---
+
+## 🛠️ Technology Stack
+
+<p align="center">
+
+🐍 **Python**   |  
+🎨 **PyQt6**   |  
+📈 **Matplotlib**   |  
+🔢 **NumPy**   |  
+📊 **SciPy**   |  
+📄 **ReportLab**   |  
+📦 **PyInstaller**
+
+</p>
+
+---
+
+## ⚡ Quick Start
 
 ### Prerequisites
-- Python 3.11+ (64-bit)
-- Windows 10 / 11
 
-### Install & Run
+* Python 3.11+ (64-bit)
+* Windows 10 / Windows 11
+
+### Installation
+
 ```bash
-# 1. Clone / extract the project
+# Clone the repository
+git clone https://github.com/ishhh27/SemiContactPro.git
+
+# Navigate to project directory
 cd SemiContactPro
 
-# 2. Install dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-# 3. Launch the application
+# Launch application
 python main.py
 ```
 
-### Build Windows EXE
-```bash
-# Double-click or run from command prompt:
-build_exe.bat
+---
 
-# Output: dist\SemiContactPro.exe
+## 🏗️ Build Windows Executable
+
+```bash
+build_exe.bat
+```
+
+Output:
+
+```text
+dist/SemiContactPro.exe
 ```
 
 ---
 
-## Project Structure
-```
+## 📂 Project Architecture
+
+```text
 SemiContactPro/
 │
-├── main.py                  # Application entry point
-├── requirements.txt         # Python dependencies
-├── SemiContactPro.spec      # PyInstaller EXE build spec
-├── build_exe.bat            # One-click Windows EXE builder
+├── main.py
+├── requirements.txt
+├── SemiContactPro.spec
+├── build_exe.bat
 │
 ├── ui/
-│   ├── splash.py            # Animated splash screen
-│   ├── dashboard.py         # Landing dashboard (CTLM / LTLM selector)
-│   ├── analysis_window.py   # Main 3-panel analysis workstation
-│   ├── input_panel.py       # Left panel — dataset inputs
-│   ├── output_panel.py      # Right panel — extracted parameter cards
-│   └── data_table.py        # Centre-bottom — d/R/CF/Rnew data table
-│
 ├── analysis/
-│   ├── models.py            # AnalysisSession, Dataset, DataPoint
-│   ├── ctlm_engine.py       # CTLM correction-factor + linear fit
-│   └── ltlm_engine.py       # LTLM probe-correction + linear fit
-│
 ├── graphs/
-│   └── plot_canvas.py       # Matplotlib canvas (dark theme, multi-dataset)
-│
 ├── exports/
-│   └── exporter.py          # PNG and PDF export engine (ReportLab)
-│
 ├── themes/
-│   └── dark_theme.py        # Global Qt stylesheet
-│
 ├── utils/
-│   └── helpers.py           # fmt() / safe_float() utilities
-│
-├── assets/                  # Icons, images (add icon.ico for EXE)
-└── data/                    # Reserved for saved session files
+├── assets/
+└── data/
 ```
 
 ---
 
-## Analysis Modes
+## 🔬 Analysis Modes
 
 ### CTLM — Circular Transmission Line Method
-| Parameter | Formula |
-|-----------|---------|
-| Rnew | `(R − Rp) / CF(d)` |
-| RSH  | `slope × 314` |
-| LT   | `intercept / (2 × slope)` |
-| Rc   | `intercept / 2` |
-| FOM  | `Rc × 0.314` |
 
-**Correction Factors:**
-| d (µm) | CF |
-|--------|-----|
-| 4  | 0.96 |
-| 8  | 0.93 |
-| 12 | 0.90 |
-| 24 | 0.82 |
-| 32 | 0.77 |
-| 40 | 0.73 |
+| Parameter | Formula                 |
+| --------- | ----------------------- |
+| Rnew      | (R − Rp) / CF(d)        |
+| RSH       | slope × 314             |
+| LT        | intercept / (2 × slope) |
+| Rc        | intercept / 2           |
+| FOM       | Rc × 0.314              |
+
+#### Correction Factors
+
+| d (µm) | CF   |
+| ------ | ---- |
+| 4      | 0.96 |
+| 8      | 0.93 |
+| 12     | 0.90 |
+| 24     | 0.82 |
+| 32     | 0.77 |
+| 40     | 0.73 |
+
+---
 
 ### LTLM — Linear Transmission Line Method
-| Parameter | Formula |
-|-----------|---------|
-| Rnew | `R − Rp` |
-| Rc   | `intercept / 2` |
-| RSH  | `slope × W` |
-| LT   | `Rc / slope` |
-| FOM  | `Rc × 0.314` |
+
+| Parameter | Formula       |
+| --------- | ------------- |
+| Rnew      | R − Rp        |
+| Rc        | intercept / 2 |
+| RSH       | slope × W     |
+| LT        | Rc / slope    |
+| FOM       | Rc × 0.314    |
 
 ---
 
-## Export
-- **PNG** — high-resolution graph (200 dpi)
-- **PDF** — full branded report including:
-  - Session metadata (wafer, product, timestamp)
-  - Embedded analysis graph
-  - Extracted parameter table
-  - Input data tables (per dataset)
+## 📑 Export Capabilities
+
+### PNG Export
+
+* High-resolution graph export
+* Publication-ready visualization
+* Theme-aware rendering
+
+### PDF Export
+
+Professional report generation including:
+
+* Session metadata
+* Wafer information
+* Product details
+* Embedded analysis graph
+* Extracted parameter tables
+* Input dataset tables
+* Timestamped report generation
 
 ---
 
-## Dependencies
-| Package | Purpose |
-|---------|---------|
-| PyQt6 | Desktop UI framework |
-| matplotlib | Scientific graph plotting |
-| numpy | Numerical arrays |
-| scipy | Linear regression (`stats.linregress`) |
-| reportlab | PDF report generation |
-| Pillow | Image handling |
-| pyinstaller | EXE packaging |
+## 📊 Extracted Parameters
+
+SemiContact Pro automatically computes:
+
+| Parameter | Description          |
+| --------- | -------------------- |
+| Rc        | Contact Resistance   |
+| RSH       | Sheet Resistance     |
+| LT        | Transfer Length      |
+| FOM       | Figure of Merit      |
+| Slope     | Linear Fit Slope     |
+| Intercept | Linear Fit Intercept |
+
+---
+
+## 🎯 Target Users
+
+* Semiconductor Device Engineers
+* Process Engineers
+* Research Scientists
+* Academic Laboratories
+* University Researchers
+* Materials Characterization Teams
+
+---
+
+## 👩‍💻 Author
+
+### Isha Joshi
+
+B.Tech Computer Science Engineering
+Banasthali Vidyapith
+
+Creator, Designer, and Developer of SemiContact Pro.
+
+SemiContact Pro was conceived and developed as an original semiconductor characterization workstation focused on simplifying CTLM and LTLM analysis workflows through integrated visualization, automated parameter extraction, and publication-ready reporting.
+
+GitHub: **@ishhh27**
+
+---
+
+## ⭐ Support
+
+If you find this project useful, consider giving it a star on GitHub.
