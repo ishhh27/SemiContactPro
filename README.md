@@ -36,6 +36,8 @@ SemiContact Pro is a fully offline desktop application designed for semiconducto
   <img src="https://img.shields.io/badge/PyInstaller-4B8BBE?style=for-the-badge" />
 </p>
 
+---
+
 
 ## ⚡ Quick Start
 
