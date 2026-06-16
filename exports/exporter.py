@@ -31,10 +31,10 @@ def export_png(
 ) -> None:
     """
     Export the graph as a high-res PNG.
-    Uses deep-copy — dark theme preserved, live canvas unchanged.
+    Uses deep-copy — light/publication theme, live canvas unchanged.
     """
-    # Deep-copy; keep dark theme for PNG (bw=False)
-    fig_copy = render_for_export(live_fig, bw=False, show_markers=show_markers)
+    # Deep-copy; use light theme + publication colours to match PDF export (bw=True)
+    fig_copy = render_for_export(live_fig, bw=True, show_markers=show_markers)
     fig_copy.savefig(filepath, dpi=200, bbox_inches="tight",
                      facecolor=fig_copy.get_facecolor())
     import matplotlib.pyplot as plt
