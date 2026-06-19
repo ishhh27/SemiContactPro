@@ -1,6 +1,8 @@
 """
 SemiContact Pro — Credits & Contact Dialog
-Refined layout: cleaner hierarchy, tighter spacing, improved alignment.
+UI Refresh: Larger dialog, improved spacing, more prominent credits cards,
+better typography hierarchy, and more visible contact information.
+All functionality, animations, and positioning behavior preserved.
 """
 
 from PyQt6.QtWidgets import (
@@ -12,53 +14,57 @@ from PyQt6.QtGui import QPainter, QColor, QLinearGradient, QBrush, QPainterPath,
 
 
 class AboutDialog(QDialog):
-    """Compact Credits & Contact popup — dark cyber theme."""
+    """Credits & Contact popup — dark cyber theme, polished layout."""
 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Dialog)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setModal(True)
-        self.setFixedWidth(420)
+        # ── CHANGE 1: Dialog width increased from 420 → 520 for a more substantial presence
+        self.setFixedWidth(520)
         self._build_ui()
         self._position_on_parent(parent)
         self._fade_in()
 
-    # ── Positioning ───────────────────────────────────────────────────
+    # ── Positioning ────────────────────────────────────────────────────
     def _position_on_parent(self, parent):
         if parent:
             pg = parent.geometry()
-            self.move(pg.right() - self.width() - 30, pg.top() + 80)
+            self.move(pg.right() - self.width() - 40, pg.top() + 90)
         else:
             s = QApplication.primaryScreen().geometry()
             self.move(s.width() - self.width() - 50, 100)
 
-    # ── UI ────────────────────────────────────────────────────────────
+    # ── UI ─────────────────────────────────────────────────────────────
     def _build_ui(self):
         root = QVBoxLayout(self)
-        root.setContentsMargins(22, 18, 22, 18)
+        # ── CHANGE 2: Outer margins increased from 22/18 → 28/24 for more breathing room
+        root.setContentsMargins(28, 24, 28, 24)
         root.setSpacing(0)
 
-        # ── Header row: title + close button ─────────────────────────
+        # ── Header row: title + close button ──────────────────────────
         hdr = QHBoxLayout()
         hdr.setSpacing(0)
         hdr.setContentsMargins(0, 0, 0, 0)
 
+        # ── CHANGE 3: Header label font size increased from 13 → 14px
         title = QLabel("Credits & Contact")
         title.setStyleSheet(
-            "color:#00e5ff;font-size:13px;font-weight:700;"
-            "letter-spacing:1px;background:transparent;"
+            "color:#00e5ff;font-size:14px;font-weight:700;"
+            "letter-spacing:1.5px;background:transparent;"
         )
         hdr.addWidget(title)
         hdr.addStretch()
 
-        close_btn = QPushButton("\u00d7")   # × — universally rendered multiplication sign
-        close_btn.setFixedSize(24, 24)
-        close_btn.setFont(QFont("Segoe UI", 14, QFont.Weight.Bold))
+        # ── CHANGE 4: Close button slightly larger (24→28) for easier click target
+        close_btn = QPushButton("\u00d7")
+        close_btn.setFixedSize(28, 28)
+        close_btn.setFont(QFont("Segoe UI", 15, QFont.Weight.Bold))
         close_btn.setStyleSheet("""
             QPushButton{
                 background:#0d2a36;border:1px solid #1e3a4a;
-                border-radius:5px;color:#b0e8f0;
+                border-radius:6px;color:#b0e8f0;
                 padding:0px;
             }
             QPushButton:hover{background:#c0392b;color:#ffffff;border-color:#c0392b;}
@@ -68,28 +74,39 @@ class AboutDialog(QDialog):
         hdr.addWidget(close_btn)
         root.addLayout(hdr)
 
-        root.addSpacing(10)
+        root.addSpacing(14)
 
-        # ── Thin cyan divider ─────────────────────────────────────────
+        # ── Cyan divider ───────────────────────────────────────────────
         div = QFrame()
         div.setFrameShape(QFrame.Shape.HLine)
         div.setStyleSheet("background:#00bcd4;border:none;max-height:1px;")
         div.setFixedHeight(1)
         root.addWidget(div)
 
-        root.addSpacing(12)
+        root.addSpacing(20)
 
-        # ── App name ──────────────────────────────────────────────────
+        # ── CHANGE 5: App name significantly more prominent — larger font, wider tracking
         app_name = QLabel("SemiContact Pro")
         app_name.setStyleSheet(
-            "color:#00e5ff;font-size:15px;font-weight:700;"
-            "letter-spacing:2px;background:transparent;"
+            "color:#00e5ff;font-size:22px;font-weight:700;"
+            "letter-spacing:3px;background:transparent;"
         )
         root.addWidget(app_name)
 
-        root.addSpacing(8)
+        root.addSpacing(4)
 
-        # ── About paragraph ───────────────────────────────────────────
+        # ── CHANGE 6: New tagline below app name for hierarchy depth
+        tagline = QLabel("Semiconductor Contact Analysis Platform")
+        tagline.setStyleSheet(
+            "color:#2a7a8a;font-size:11px;letter-spacing:1.5px;"
+            "background:transparent;"
+        )
+        root.addWidget(tagline)
+
+        root.addSpacing(16)
+
+        # ── About paragraph ────────────────────────────────────────────
+        # ── CHANGE 7: Font size increased from 11 → 12px for better legibility
         about = QLabel(
             "SemiContact Pro is a scientific analysis platform developed for semiconductor "
             "contact resistance evaluation, data visualization, curve fitting, and automated "
@@ -98,107 +115,163 @@ class AboutDialog(QDialog):
         )
         about.setWordWrap(True)
         about.setStyleSheet(
-            "color:#6a9aaa;font-size:11px;line-height:1.5;"
+            "color:#5a8a9a;font-size:12px;line-height:1.6;"
             "background:transparent;"
         )
         root.addWidget(about)
 
-        root.addSpacing(14)
+        root.addSpacing(20)
 
-        # ── Credits card ──────────────────────────────────────────────
-        card = QFrame()
-        card.setStyleSheet(
-            "background:#0b1820;border:1px solid #1e3a4a;border-radius:8px;"
+        # ── CHANGE 8: Section label above credits cards ────────────────
+        credits_label = QLabel("PROJECT CREDITS")
+        credits_label.setStyleSheet(
+            "color:#1e5a6a;font-size:9px;letter-spacing:2.5px;"
+            "font-weight:700;background:transparent;"
         )
-        card_v = QVBoxLayout(card)
-        card_v.setContentsMargins(16, 14, 16, 14)
-        card_v.setSpacing(0)
+        root.addWidget(credits_label)
 
-        def _row(role: str, name: str, role_color: str = "#3a7a8a",
-                 name_color: str = "#b0e8f0", name_size: int = 12):
-            """One role + name pair inside the credits card."""
-            role_lbl = QLabel(role)
-            role_lbl.setStyleSheet(
-                f"color:{role_color};font-size:9px;letter-spacing:1px;"
-                "font-weight:600;background:transparent;"
-            )
-            name_lbl = QLabel(name)
-            name_lbl.setStyleSheet(
-                f"color:{name_color};font-size:{name_size}px;font-weight:700;"
-                "background:transparent;"
-            )
-            return role_lbl, name_lbl
+        root.addSpacing(8)
 
-        mentor_role, mentor_name = _row(
-            "PROJECT ARCHITECTURE & GUIDANCE",
-            "Mr. Niraj Kumar",
+        # ── CHANGE 9: Mentor card — now a standalone bordered panel ────
+        mentor_card = QFrame()
+        mentor_card.setStyleSheet("""
+            QFrame{
+                background:#091420;
+                border:1px solid #1e3a4a;
+                border-left: 3px solid #3a7a8a;
+                border-radius:8px;
+            }
+        """)
+        mentor_v = QVBoxLayout(mentor_card)
+        mentor_v.setContentsMargins(18, 14, 18, 14)
+        mentor_v.setSpacing(3)
+
+        mentor_role = QLabel("PROJECT ARCHITECTURE & GUIDANCE")
+        mentor_role.setStyleSheet(
+            "color:#3a7a8a;font-size:9px;letter-spacing:1.5px;"
+            "font-weight:700;background:transparent;border:none;"
         )
-        card_v.addWidget(mentor_role)
-        card_v.addSpacing(2)
-        card_v.addWidget(mentor_name)
+        mentor_v.addWidget(mentor_role)
 
-        # Intra-card separator
-        card_v.addSpacing(10)
-        sep = QFrame()
-        sep.setFrameShape(QFrame.Shape.HLine)
-        sep.setStyleSheet("background:#1e3a4a;border:none;max-height:1px;")
-        sep.setFixedHeight(1)
-        card_v.addWidget(sep)
-        card_v.addSpacing(10)
-
-        dev_role, dev_name = _row(
-            "DESIGNED & DEVELOPED BY",
-            "Isha Joshi",
-            name_color="#00e5ff",
-            name_size=13,
+        # ── CHANGE 10: Mentor name font increased from 12 → 15px
+        mentor_name = QLabel("Mr. Niraj Kumar")
+        mentor_name.setStyleSheet(
+            "color:#b0e8f0;font-size:15px;font-weight:700;"
+            "background:transparent;border:none;"
         )
-        card_v.addWidget(dev_role)
-        card_v.addSpacing(2)
-        card_v.addWidget(dev_name)
+        mentor_v.addWidget(mentor_name)
 
-        root.addWidget(card)
+        root.addWidget(mentor_card)
 
-        root.addSpacing(12)
+        root.addSpacing(10)
 
-        # ── Contact line ──────────────────────────────────────────────
-        contact_lbl = QLabel("For future collaborations and professional correspondence:")
-        contact_lbl.setStyleSheet("color:#3a7a8a;font-size:10px;background:transparent;")
-        root.addWidget(contact_lbl)
+        # ── CHANGE 11: Developer card — accent cyan left border, higher visual prominence
+        dev_card = QFrame()
+        dev_card.setStyleSheet("""
+            QFrame{
+                background:#091420;
+                border:1px solid #1e4a5a;
+                border-left: 3px solid #00bcd4;
+                border-radius:8px;
+            }
+        """)
+        dev_v = QVBoxLayout(dev_card)
+        dev_v.setContentsMargins(18, 14, 18, 14)
+        dev_v.setSpacing(3)
 
-        root.addSpacing(4)
+        dev_role = QLabel("DESIGNED & DEVELOPED BY")
+        dev_role.setStyleSheet(
+            "color:#3a9aaa;font-size:9px;letter-spacing:1.5px;"
+            "font-weight:700;background:transparent;border:none;"
+        )
+        dev_v.addWidget(dev_role)
 
-        email_lbl = QLabel("sniraj1991@gmail.com \nijoshi2705@gmail.com")
+        # ── CHANGE 12: Developer name increased from 13 → 17px, full cyan accent
+        dev_name = QLabel("Isha Joshi")
+        dev_name.setStyleSheet(
+            "color:#00e5ff;font-size:17px;font-weight:700;"
+            "letter-spacing:0.5px;background:transparent;border:none;"
+        )
+        dev_v.addWidget(dev_name)
+
+        root.addWidget(dev_card)
+
+        root.addSpacing(20)
+
+        # ── CHANGE 13: Contact section label ──────────────────────────
+        contact_section = QLabel("CONTACT")
+        contact_section.setStyleSheet(
+            "color:#1e5a6a;font-size:9px;letter-spacing:2.5px;"
+            "font-weight:700;background:transparent;"
+        )
+        root.addWidget(contact_section)
+
+        root.addSpacing(8)
+
+        # ── CHANGE 14: Contact info in its own card panel ─────────────
+        contact_card = QFrame()
+        contact_card.setStyleSheet("""
+            QFrame{
+                background:#091420;
+                border:1px solid #1e3a4a;
+                border-left:3px solid #00ffa0;
+                border-radius:8px;
+            }
+        """)
+        contact_v = QVBoxLayout(contact_card)
+        contact_v.setContentsMargins(18, 14, 18, 14)
+        contact_v.setSpacing(6)
+
+        contact_desc = QLabel("For future collaborations and professional correspondence:")
+        contact_desc.setStyleSheet(
+            "color:#3a7a8a;font-size:11px;background:transparent;border:none;"
+        )
+        contact_v.addWidget(contact_desc)
+
+        # ── CHANGE 15: Email addresses larger (12→14px) and clearly separated
+        email_lbl = QLabel("sniraj1991@gmail.com")
         email_lbl.setStyleSheet(
-            "color:#00ffa0;font-size:12px;font-weight:600;"
-            "letter-spacing:0.5px;background:transparent;"
+            "color:#00ffa0;font-size:14px;font-weight:600;"
+            "letter-spacing:0.5px;background:transparent;border:none;"
         )
         email_lbl.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
         email_lbl.setCursor(Qt.CursorShape.IBeamCursor)
-        root.addWidget(email_lbl)
+        contact_v.addWidget(email_lbl)
 
-        root.addSpacing(14)
+        email_lbl2 = QLabel("ijoshi2705@gmail.com")
+        email_lbl2.setStyleSheet(
+            "color:#00ffa0;font-size:14px;font-weight:600;"
+            "letter-spacing:0.5px;background:transparent;border:none;"
+        )
+        email_lbl2.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        email_lbl2.setCursor(Qt.CursorShape.IBeamCursor)
+        contact_v.addWidget(email_lbl2)
 
-        # ── Footer divider + version ──────────────────────────────────
+        root.addWidget(contact_card)
+
+        root.addSpacing(20)
+
+        # ── Footer divider + version ───────────────────────────────────
         foot_div = QFrame()
         foot_div.setFrameShape(QFrame.Shape.HLine)
         foot_div.setStyleSheet("background:#1e3a4a;border:none;max-height:1px;")
         foot_div.setFixedHeight(1)
         root.addWidget(foot_div)
 
-        root.addSpacing(8)
+        root.addSpacing(10)
 
         ver = QLabel("v1.0.0  ·  © 2026 SemiContact Pro")
         ver.setAlignment(Qt.AlignmentFlag.AlignCenter)
         ver.setStyleSheet("color:#1e3a4a;font-size:9px;background:transparent;")
         root.addWidget(ver)
 
-    # ── Painted rounded background ────────────────────────────────────
+    # ── Painted rounded background ─────────────────────────────────────
     def paintEvent(self, event):
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         w, h = self.width(), self.height()
         path = QPainterPath()
-        path.addRoundedRect(0, 0, w, h, 12, 12)
+        path.addRoundedRect(0, 0, w, h, 14, 14)
         bg = QLinearGradient(0, 0, 0, h)
         bg.setColorAt(0, QColor(13, 22, 34))
         bg.setColorAt(1, QColor(8, 14, 22))
@@ -209,7 +282,7 @@ class AboutDialog(QDialog):
         p.drawPath(path)
         p.end()
 
-    # ── Fade in ───────────────────────────────────────────────────────
+    # ── Fade in ────────────────────────────────────────────────────────
     def _fade_in(self):
         self.setWindowOpacity(0.0)
         self._anim = QPropertyAnimation(self, b"windowOpacity")
